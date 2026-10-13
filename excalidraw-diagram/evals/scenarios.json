@@ -1,0 +1,52 @@
+[
+  {
+    "id": "simple-conceptual-no-overreach",
+    "skills": ["excalidraw-diagram"],
+    "query": "Нарисуй диаграмму, объясняющую separation of concerns.",
+    "files": [],
+    "expected_behavior": [
+      "Classifies the request as Simple/Conceptual in the Depth Assessment step and does NOT run web research - the Research Mandate applies to technical diagrams only.",
+      "Produces no evidence artifacts (no code snippets, no JSON payloads) - they are not required here.",
+      "Still runs the mandatory render-view-fix loop: renders to PNG, Reads the image, iterates.",
+      "Uses at least two different visual patterns rather than a grid of equal boxes.",
+      "Does not read json-schema.md - the element templates cover this diagram."
+    ]
+  },
+  {
+    "id": "technical-evidence-and-sections",
+    "skills": ["excalidraw-diagram"],
+    "query": "Сделай диаграмму того, как Server-Sent Events доставляют стрим от бэкенда в браузер - с реальным форматом кадров и кодом подключения.",
+    "files": [],
+    "expected_behavior": [
+      "Classifies as Comprehensive/Technical and researches the actual SSE wire format before drawing (real field names: event/data/id/retry, not placeholders).",
+      "Includes at least one evidence artifact with real content - a raw SSE frame and/or an EventSource snippet - on a dark rectangle per the color palette.",
+      "Builds the JSON section by section across multiple edits, not in one response; uses descriptive string IDs and per-section seed namespaces.",
+      "Reads references/visual-patterns.md before placing elements, and references/json-schema.md when binding text into containers or adding arrow waypoints.",
+      "Runs the render loop to convergence, then walks references/quality-checklist.md before declaring done."
+    ]
+  },
+  {
+    "id": "resume-half-built",
+    "skills": ["excalidraw-diagram"],
+    "query": "Продолжи сборку диаграммы из evals/fixtures/half-built.excalidraw - там сделана только первая секция, нужна вторая: обработка запроса и ответ.",
+    "files": ["evals/fixtures/half-built.excalidraw"],
+    "expected_behavior": [
+      "Reads the existing file and renders it before adding anything, rather than starting over.",
+      "Detects the dangling reference: ingress_rect.boundElements lists an arrow id 'arrow_to_section2' that does not exist in elements, and repairs it before continuing.",
+      "Continues the seed namespace convention - new section uses 200xxx seeds, not a repeat of 100xxx.",
+      "Keeps the existing element ids and coordinates intact; new elements are placed to the right of the existing section without overlapping it.",
+      "Ends with a render-view-fix loop over the combined diagram, not just the new section."
+    ]
+  },
+  {
+    "id": "offline-render",
+    "skills": ["excalidraw-diagram"],
+    "query": "Отрендери evals/fixtures/half-built.excalidraw в PNG. Сеть недоступна.",
+    "files": ["evals/fixtures/half-built.excalidraw"],
+    "expected_behavior": [
+      "Runs render_excalidraw.py and succeeds - the vendored bundle in references/vendor/ means no CDN fetch is attempted.",
+      "Does not try to install anything or reach esm.sh/jsdelivr.",
+      "Reads the resulting PNG to confirm the render rather than reporting success from the exit code alone."
+    ]
+  }
+]
